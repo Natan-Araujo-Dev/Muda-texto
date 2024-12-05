@@ -1,0 +1,14 @@
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\MeuApp.exe
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\MeuApp.deps.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\MeuApp.runtimeconfig.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\MeuApp.pdb
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\MeuApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\MeuApp.AssemblyInfoInputs.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\MeuApp.AssemblyInfo.cs
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\MeuApp.csproj.CoreCompileInputs.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\refint\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\MeuApp.pdb
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\MeuApp.genruntimeconfig.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Release\net8.0\win-x64\ref\MeuApp.dll

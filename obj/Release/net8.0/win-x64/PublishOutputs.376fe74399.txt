@@ -1,0 +1,5 @@
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\publish\MeuApp.exe
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\publish\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\publish\MeuApp.deps.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\publish\MeuApp.runtimeconfig.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Release\net8.0\win-x64\publish\MeuApp.pdb

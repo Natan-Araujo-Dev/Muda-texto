@@ -1,0 +1,28 @@
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\bin\Debug\net8.0\MeuApp.exe
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\bin\Debug\net8.0\MeuApp.deps.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\bin\Debug\net8.0\MeuApp.runtimeconfig.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\bin\Debug\net8.0\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\bin\Debug\net8.0\MeuApp.pdb
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\MeuApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\MeuApp.AssemblyInfoInputs.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\MeuApp.AssemblyInfo.cs
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\MeuApp.csproj.CoreCompileInputs.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\refint\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\MeuApp.pdb
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\MeuApp.genruntimeconfig.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\muda texto\MeuApp\obj\Debug\net8.0\ref\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\MeuApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\MeuApp.AssemblyInfoInputs.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\MeuApp.AssemblyInfo.cs
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\MeuApp.csproj.CoreCompileInputs.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\refint\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\MeuApp.pdb
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Debug\net8.0\MeuApp.exe
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Debug\net8.0\MeuApp.deps.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Debug\net8.0\MeuApp.runtimeconfig.json
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Debug\net8.0\MeuApp.dll
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\bin\Debug\net8.0\MeuApp.pdb
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\MeuApp.genruntimeconfig.cache
+C:\Users\NATAN\Programacao\Codigos\Apps\C#\inicio\MudaTexto\obj\Debug\net8.0\ref\MeuApp.dll
