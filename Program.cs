@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,7 +7,6 @@ class Program
 {
     static int extraTime;
     static int defaultTextingSpeed = 10;
-    static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
     static async Task Main() //Tarefa: ajeitar sobre a palavra invertida com assento;
     {
         await delayedTextWrite("\n==================== Alterador de texto ====================\n", defaultTextingSpeed);
@@ -18,7 +18,16 @@ class Program
     {
         while (true)
         {
-            await delayedTextWrite("\n------------------ Inicio ------------------\nDigite qual dessas opções você quer realizar:\n1: Inverter palavra;\n2: Mistificar palavra;\n3: Testar o novo método;\n4: Encerrar aplicação.", defaultTextingSpeed);
+            await delayedTextWrite
+            (
+                "\n------------------ Inicio ------------------\n" +
+                "Digite qual dessas opções você quer realizar:\n" +
+                "1: Inverter texto;\n" +
+                "2: Mistificar texto;\n" +
+                "3: Embaralhar texto;\n" +
+                "4: Novo método;\n" +
+                "5: Encerrar aplicação.", defaultTextingSpeed
+            );
             string inputType = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
             string inputText;
 
@@ -55,12 +64,25 @@ class Program
                 break;
 
                 case "3":                
-                    inputText = await requestInput("\nDigite alguma coisa: ", defaultTextingSpeed);
-                    await delayedTextWrite(inputText + "\n", defaultTextingSpeed);
-                    await Task.Delay(2000);
+                    inputText = await requestInput("\nTexto para embaralhar: ", defaultTextingSpeed);
+                    if (inputText.Length >=4)
+                    {
+                        await delayedTextWrite("Texto embaralhado: " + shufleLetters(inputText, 24) + "\n", defaultTextingSpeed);
+                        await Task.Delay(3000 + extraTime);
+                        extraTime = 0;
+                    }
+                    else
+                    {
+                        await delayedTextWrite("\nAlerta: Não é possível embaralhar esse Texto", defaultTextingSpeed);
+                        await Task.Delay(2000);
+                    }
                 break;
 
-                case "4":
+                case "4":                
+                    await delayedTextWrite("\nNada por aqui ainda! Tente outra função", defaultTextingSpeed);
+                break;
+
+                case "5":
                     await delayedTextWrite("\nTem certeza? Escolha:\n1 = Sim\n2 = Não", defaultTextingSpeed);
                     string selectedOption = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
                     if (selectedOption == "1")
@@ -78,6 +100,8 @@ class Program
             }
         }
     }
+
+    #region wordFunctions
 
     static string InvertedWord (string wordToInvert)
     {
@@ -132,6 +156,39 @@ class Program
         return finalWord;
     }
 
+    static string shufleLetters (string wordToShuffle, int wordQuantity)
+    {
+        List<char> basicWord = wordToShuffle.ToList();
+        List<char>[] sortedWord = new List<char>[wordQuantity];
+
+        string finalText = "";
+
+        //i = repete wordQuantity
+        for (int i = 0; i < wordQuantity; i++)
+        {   
+            // embaralha em si
+            sortedWord[i] = new List<char>();
+            basicWord = wordToShuffle.ToList();
+            Random random = new Random();
+
+            int basicWordLength = basicWord.Count();
+            for (int j = 0; j < basicWordLength; j++)
+            {
+                int sortedNumber = random.Next(0, basicWordLength - j);
+                sortedWord[i].Add(basicWord[sortedNumber]);
+                basicWord.RemoveAt(sortedNumber);
+            }
+            
+            finalText += "\n" + string.Concat(sortedWord[i]);
+        }
+        
+        return finalText;
+    }
+
+    #endregion
+
+    #region auxiliar
+
     static async Task delayedTextWrite (string baseText, int writeInterval)
     {
         char[] splitedText = baseText.ToCharArray();
@@ -146,7 +203,13 @@ class Program
     static async Task<string> requestInput(string message, int writeInterval)
     {
         await delayedTextWrite(message, writeInterval);
+        #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
         string input = await Task.Run(() => Console.ReadLine());
+        #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+        #pragma warning disable CS8603 // Possible null reference return.
         return input;
+        #pragma warning restore CS8603 // Possible null reference return.
     }
+
+    #endregion
 }
