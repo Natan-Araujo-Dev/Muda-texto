@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,99 +8,26 @@ class Program
 {
     static int extraTime;
     static int defaultTextingSpeed = 10;
-    static async Task Main() //Tarefa: ajeitar sobre a palavra invertida com assento;
+    static async Task Main()
     {
-        await delayedTextWrite("\n==================== Alterador de texto ====================\n", defaultTextingSpeed);
+        List<(char, int)> mainList = repetitionCount("ass");
 
-        await getComand();
-    }
-
-    static async Task getComand()
-    {
-        while (true)
+        foreach (var item in mainList)
         {
-            await delayedTextWrite
-            (
-                "\n------------------ Inicio ------------------\n" +
-                "Digite qual dessas opções você quer realizar:\n" +
-                "1: Inverter texto;\n" +
-                "2: Mistificar texto;\n" +
-                "3: Embaralhar texto;\n" +
-                "4: Novo método;\n" +
-                "5: Encerrar aplicação.", defaultTextingSpeed
-            );
-            string inputType = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
-            string inputText;
-
-            switch (inputType)
-            {
-                case "1":
-                    inputText = await requestInput("\nDigite a palavra para inverter: ", defaultTextingSpeed);
-                    if (inputText.Length >=2)
-                    {
-                        await delayedTextWrite("Texto invertido: " + InvertedWord(inputText) + "\n", defaultTextingSpeed);
-                        await Task.Delay(3000 + extraTime);
-                        extraTime = 0;
-                    }
-                    else
-                    {
-                        await delayedTextWrite("\nAlerta: Não é possível inverter essa Texto", defaultTextingSpeed);
-                        await Task.Delay(2000);
-                    }
-                break;
-
-                case "2":
-                    inputText = await requestInput("\nTexto para mistificar: ", defaultTextingSpeed);
-                    if (inputText.Length >=2)
-                    {
-                        await delayedTextWrite("Texto mistificado: " + strangeWord(inputText) + "\n", defaultTextingSpeed);
-                        await Task.Delay(3000 + extraTime);
-                        extraTime = 0;
-                    }
-                    else
-                    {
-                        await delayedTextWrite("\nAlerta: Não é possível mistificar essa Texto", defaultTextingSpeed);
-                        await Task.Delay(2000);
-                    }
-                break;
-
-                case "3":                
-                    inputText = await requestInput("\nTexto para embaralhar: ", defaultTextingSpeed);
-                    if (inputText.Length >=4)
-                    {
-                        await delayedTextWrite("Texto embaralhado: " + shufleLetters(inputText, 24) + "\n", defaultTextingSpeed);
-                        await Task.Delay(3000 + extraTime);
-                        extraTime = 0;
-                    }
-                    else
-                    {
-                        await delayedTextWrite("\nAlerta: Não é possível embaralhar esse Texto", defaultTextingSpeed);
-                        await Task.Delay(2000);
-                    }
-                break;
-
-                case "4":                
-                    await delayedTextWrite("\nNada por aqui ainda! Tente outra função", defaultTextingSpeed);
-                break;
-
-                case "5":
-                    await delayedTextWrite("\nTem certeza? Escolha:\n1 = Sim\n2 = Não", defaultTextingSpeed);
-                    string selectedOption = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
-                    if (selectedOption == "1")
-                    {   
-                        await delayedTextWrite("\nSaindo..." + "\n", 125);
-                        await Task.Delay(2000);
-                        Environment.Exit(0);
-                    }
-                break;
-
-                default: 
-                    await delayedTextWrite("\nAlerta: Digite alguma das opções fornecidas\nRetornando...\n", defaultTextingSpeed);
-                    await Task.Delay(1500);
-                break;
-            }
+            Console.WriteLine($"Char: {item.Item1}, Int: {item.Item2}");
         }
+        //await getComand();
     }
+
+/*
+1 - Aprender arranjo;
+2 - Calcular quantas combinações possíveis há;
+3 - Criar uma array pra ser preenchida com todos arranjos;
+4 - Rearranjar a palavra e armazena-la na array caso uma palavra nova;
+5 - Repetir o item 4 enquanto o tamanho da array for menor que a quantidade de sorteios;
+6 - Sortear por ordem alfabética;
+7 - Juntar tudo em uma string só;
+*/
 
     #region wordFunctions
 
@@ -156,38 +84,178 @@ class Program
         return finalWord;
     }
 
-    static string shufleLetters (string wordToShuffle, int wordQuantity)
+    #endregion
+
+    #region secundaryFunctions
+
+    static BigInteger exponentialNumber (int baseNumber)
     {
-        List<char> basicWord = wordToShuffle.ToList();
-        List<char>[] sortedWord = new List<char>[wordQuantity];
-
-        string finalText = "";
-
-        //i = repete wordQuantity
-        for (int i = 0; i < wordQuantity; i++)
-        {   
-            // embaralha em si
-            sortedWord[i] = new List<char>();
-            basicWord = wordToShuffle.ToList();
-            Random random = new Random();
-
-            int basicWordLength = basicWord.Count();
-            for (int j = 0; j < basicWordLength; j++)
-            {
-                int sortedNumber = random.Next(0, basicWordLength - j);
-                sortedWord[i].Add(basicWord[sortedNumber]);
-                basicWord.RemoveAt(sortedNumber);
-            }
-            
-            finalText += "\n" + string.Concat(sortedWord[i]);
+        BigInteger finalNumber = baseNumber;
+        for (int i = baseNumber-1; i > 1; i--) // >1 para evitar uma lida desnecessária no loop for;
+        {
+            finalNumber*=i;
         }
-        
-        return finalText;
+
+        return finalNumber;
     }
+
+    static List<(char, int)> repetitionCount (string basicWord) //fazer isso tudo, só que sem diferênciar letras maiúsculas de minúsculas;
+    {
+        List<(char, int)> baseList = new List<(char, int)>();
+        List<(char, int)> finalList = new List<(char, int)>();
+        
+        List<char> splitedWord = basicWord.ToList<char>();
+
+        foreach (char letter in splitedWord)
+        {
+            if (!baseList.Any(tupla => tupla.Item1 == letter))
+            {
+                baseList.Add((letter, 1));
+            }
+            else
+            {
+                int index = baseList.FindIndex(tupla => tupla.Item1 == letter);
+                int newValue = baseList[index].Item2 + 1;
+                baseList[index] = (letter, newValue);
+            }
+        }
+
+        foreach (var item in baseList)
+        {
+            if (item.Item2 > 1)
+                finalList.Add((item.Item1, item.Item2));
+        }
+    
+        return finalList;
+    }
+
+    /*
+    static List<(char, int)> repetitionCount (string basicWord)
+    {
+        List<(char, int)> mainList = new List<(char, int)>();
+        
+        List<char> splitedWord = basicWord.ToList<char>();
+        //List<char> repeteadLetters = new List<char>();
+
+        List<int> charPositions = new List<int>();
+
+        for (int i = 0; i < splitedWord.Count; i++)
+        {
+            for (int j = 0; j < splitedWord.Count; j++)
+            {
+                if (splitedWord[i] == splitedWord[j] && i != j)
+                //  se a letra for igual && se não está checando à si mesma
+                {
+                    if (!mainList.Any(tupla => tupla.Item1 == splitedWord[i]))
+                    //se a letra não está contida na lista
+                    {
+                        mainList.Add((splitedWord[i], 1));
+                    }
+                    else
+                    {
+                        int index = mainList.FindIndex(tupla => tupla.Item1 == splitedWord[i]);
+                        int newValue = mainList[index].Item2 + 1;
+                        mainList[index] = (mainList[index].Item1, newValue);
+                    }
+                }
+            }
+        }
+
+        return mainList;
+    }
+    */
 
     #endregion
 
     #region auxiliar
+
+    static async Task getComand()
+    {   
+        await delayedTextWrite("\n==================== Alterador de texto ====================\n", defaultTextingSpeed);
+        while (true)
+        {
+            await delayedTextWrite
+            (
+                "\n------------------ Inicio ------------------\n" +
+                "Digite qual dessas opções você quer realizar:\n" +
+                "1: Inverter texto;\n" +
+                "2: Mistificar texto;\n" +
+                "3: Embaralhar texto;\n" +
+                "4: Novo método;\n" +
+                "5: Encerrar aplicação.", defaultTextingSpeed
+            );
+            string inputType = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
+            string inputText;
+
+            switch (inputType)
+            {
+                case "1":
+                    inputText = await requestInput("\nDigite a palavra para inverter: ", defaultTextingSpeed);
+                    if (inputText.Length >=2)
+                    {
+                        await delayedTextWrite("Texto invertido: " + InvertedWord(inputText) + "\n", defaultTextingSpeed);
+                        await Task.Delay(3000 + extraTime);
+                        extraTime = 0;
+                    }
+                    else
+                    {
+                        await delayedTextWrite("\nAlerta: Não é possível inverter essa Texto", defaultTextingSpeed);
+                        await Task.Delay(2000);
+                    }
+                break;
+
+                case "2":
+                    inputText = await requestInput("\nTexto para mistificar: ", defaultTextingSpeed);
+                    if (inputText.Length >=2)
+                    {
+                        await delayedTextWrite("Texto mistificado: " + strangeWord(inputText) + "\n", defaultTextingSpeed);
+                        await Task.Delay(3000 + extraTime);
+                        extraTime = 0;
+                    }
+                    else
+                    {
+                        await delayedTextWrite("\nAlerta: Não é possível mistificar essa Texto", defaultTextingSpeed);
+                        await Task.Delay(2000);
+                    }
+                break;
+
+                case "3":                
+                    inputText = await requestInput("\nTexto para embaralhar: ", defaultTextingSpeed);
+                    if (inputText.Length >= 2)
+                    {
+                        //await delayedTextWrite("Texto embaralhado: " + Permute(inputText, "") + "\n", defaultTextingSpeed);
+                        await Task.Delay(3000 + extraTime);
+                        extraTime = 0;
+                    }
+                    else
+                    {
+                        await delayedTextWrite("\nAlerta: Não é possível embaralhar esse Texto", defaultTextingSpeed);
+                        await Task.Delay(2000);
+                    }
+                break;
+
+                case "4":                
+                    await delayedTextWrite("\nNada por aqui ainda! Tente outra função", defaultTextingSpeed);
+                break;
+
+                case "5":
+                    await delayedTextWrite("\nTem certeza? Escolha:\n1 = Sim\n2 = Não", defaultTextingSpeed);
+                    string selectedOption = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
+                    if (selectedOption == "1")
+                    {   
+                        await delayedTextWrite("\nSaindo..." + "\n", 125);
+                        await Task.Delay(2000);
+                        Environment.Exit(0);
+                    }
+                break;
+
+                default: 
+                    await delayedTextWrite("\nAlerta: Digite alguma das opções fornecidas\nRetornando...\n", defaultTextingSpeed);
+                    await Task.Delay(1500);
+                break;
+            }
+        }
+    }
 
     static async Task delayedTextWrite (string baseText, int writeInterval)
     {
