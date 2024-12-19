@@ -10,24 +10,15 @@ class Program
     static int defaultTextingSpeed = 10;
     static async Task Main()
     {
-        List<(char, int)> mainList = repetitionCount("ass");
+        string stringToUse = await requestInput("Digite a palavra para calcular possibilidades: ", defaultTextingSpeed);
 
-        foreach (var item in mainList)
-        {
-            Console.WriteLine($"Char: {item.Item1}, Int: {item.Item2}");
-        }
+        await delayedTextWrite("Possibilidades para " + stringToUse + ": " + totalOfPossibilities(stringToUse), defaultTextingSpeed);
+
+        await Task.Delay(3000);
+
+
         //await getComand();
     }
-
-/*
-1 - Aprender arranjo;
-2 - Calcular quantas combinações possíveis há;
-3 - Criar uma array pra ser preenchida com todos arranjos;
-4 - Rearranjar a palavra e armazena-la na array caso uma palavra nova;
-5 - Repetir o item 4 enquanto o tamanho da array for menor que a quantidade de sorteios;
-6 - Sortear por ordem alfabética;
-7 - Juntar tudo em uma string só;
-*/
 
     #region wordFunctions
 
@@ -84,27 +75,12 @@ class Program
         return finalWord;
     }
 
-    #endregion
-
-    #region secundaryFunctions
-
-    static BigInteger exponentialNumber (int baseNumber)
-    {
-        BigInteger finalNumber = baseNumber;
-        for (int i = baseNumber-1; i > 1; i--) // >1 para evitar uma lida desnecessária no loop for;
-        {
-            finalNumber*=i;
-        }
-
-        return finalNumber;
-    }
-
-    static List<(char, int)> repetitionCount (string basicWord) //fazer isso tudo, só que sem diferênciar letras maiúsculas de minúsculas;
+    static List<(char, int)> repetitionCountList (string basicWord) //fazer isso tudo, só que sem diferênciar letras maiúsculas de minúsculas;
     {
         List<(char, int)> baseList = new List<(char, int)>();
         List<(char, int)> finalList = new List<(char, int)>();
         
-        List<char> splitedWord = basicWord.ToList<char>();
+        List<char> splitedWord = basicWord.ToUpper().ToList<char>();
 
         foreach (char letter in splitedWord)
         {
@@ -129,41 +105,41 @@ class Program
         return finalList;
     }
 
-    /*
-    static List<(char, int)> repetitionCount (string basicWord)
+    #endregion
+
+    #region secundaryFunctions
+
+    static BigInteger exponentialNumber (BigInteger baseNumber)
     {
-        List<(char, int)> mainList = new List<(char, int)>();
-        
-        List<char> splitedWord = basicWord.ToList<char>();
-        //List<char> repeteadLetters = new List<char>();
-
-        List<int> charPositions = new List<int>();
-
-        for (int i = 0; i < splitedWord.Count; i++)
+        BigInteger finalNumber = baseNumber;
+        for (BigInteger i = baseNumber-1; i > 1; i--) // >1 para evitar uma lida desnecessária no loop for;
         {
-            for (int j = 0; j < splitedWord.Count; j++)
-            {
-                if (splitedWord[i] == splitedWord[j] && i != j)
-                //  se a letra for igual && se não está checando à si mesma
-                {
-                    if (!mainList.Any(tupla => tupla.Item1 == splitedWord[i]))
-                    //se a letra não está contida na lista
-                    {
-                        mainList.Add((splitedWord[i], 1));
-                    }
-                    else
-                    {
-                        int index = mainList.FindIndex(tupla => tupla.Item1 == splitedWord[i]);
-                        int newValue = mainList[index].Item2 + 1;
-                        mainList[index] = (mainList[index].Item1, newValue);
-                    }
-                }
-            }
+            finalNumber*=i;
         }
 
-        return mainList;
+        return finalNumber;
     }
-    */
+
+    static BigInteger repetitions (string baseWord)
+    {
+        BigInteger numberOfRepetitions = 1;
+        List<(char, int)> repetitionList = repetitionCountList(baseWord);
+
+        foreach (var item in repetitionList)
+        {
+            BigInteger newValue = item.Item2;
+            numberOfRepetitions *= exponentialNumber(newValue);
+        }
+
+        return numberOfRepetitions;
+    }
+
+    static BigInteger totalOfPossibilities(string baseWord)
+    {
+        BigInteger valor = exponentialNumber(baseWord.Length) / repetitions(baseWord);
+
+        return valor;
+    }
 
     #endregion
 
@@ -180,8 +156,8 @@ class Program
                 "Digite qual dessas opções você quer realizar:\n" +
                 "1: Inverter texto;\n" +
                 "2: Mistificar texto;\n" +
-                "3: Embaralhar texto;\n" +
-                "4: Novo método;\n" +
+                "3: Contar repetições;\n" +
+                "4: Vazio;\n" +
                 "5: Encerrar aplicação.", defaultTextingSpeed
             );
             string inputType = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
@@ -199,7 +175,7 @@ class Program
                     }
                     else
                     {
-                        await delayedTextWrite("\nAlerta: Não é possível inverter essa Texto", defaultTextingSpeed);
+                        await delayedTextWrite("\nAlerta: Não é possível inverter essa Texto\n", defaultTextingSpeed);
                         await Task.Delay(2000);
                     }
                 break;
@@ -214,28 +190,38 @@ class Program
                     }
                     else
                     {
-                        await delayedTextWrite("\nAlerta: Não é possível mistificar essa Texto", defaultTextingSpeed);
+                        await delayedTextWrite("\nAlerta: Não é possível mistificar essa Texto\n", defaultTextingSpeed);
                         await Task.Delay(2000);
                     }
                 break;
 
                 case "3":                
-                    inputText = await requestInput("\nTexto para embaralhar: ", defaultTextingSpeed);
-                    if (inputText.Length >= 2)
+                    inputText = await requestInput("\nTexto para contar repetições: ", defaultTextingSpeed);
+                    if (inputText.Length >= 3)
                     {
-                        //await delayedTextWrite("Texto embaralhado: " + Permute(inputText, "") + "\n", defaultTextingSpeed);
-                        await Task.Delay(3000 + extraTime);
-                        extraTime = 0;
+                        List<(char, int)> mainList = repetitionCountList(inputText);
+                        if (mainList.Count != 0)
+                        {
+                            foreach (var item in mainList)
+                            {
+                                await delayedTextWrite("Letra: " + item.Item1 + " | repetições: " + item.Item2 + "\n", defaultTextingSpeed);
+                                await Task.Delay(3000);
+                            } 
+                        }
+                        else
+                        await delayedTextWrite("Não há repetições nesse texto.\n", defaultTextingSpeed);
+                        await Task.Delay(2000);
+                          
                     }
                     else
                     {
-                        await delayedTextWrite("\nAlerta: Não é possível embaralhar esse Texto", defaultTextingSpeed);
+                        await delayedTextWrite("\nAlerta: Não é possível usar esse Texto\n", defaultTextingSpeed);
                         await Task.Delay(2000);
                     }
                 break;
 
-                case "4":                
-                    await delayedTextWrite("\nNada por aqui ainda! Tente outra função", defaultTextingSpeed);
+                case "4":
+                    await delayedTextWrite("\nSem nada ainda!", defaultTextingSpeed);
                 break;
 
                 case "5":
