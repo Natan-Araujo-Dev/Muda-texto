@@ -6,18 +6,10 @@ using System.Threading.Tasks;
 
 class Program
 {
-    static int extraTime;
     static int defaultTextingSpeed = 10;
     static async Task Main()
     {
-        string stringToUse = await requestInput("Digite a palavra para calcular possibilidades: ", defaultTextingSpeed);
-
-        await delayedTextWrite("Possibilidades para " + stringToUse + ": " + totalOfPossibilities(stringToUse), defaultTextingSpeed);
-
-        await Task.Delay(3000);
-
-
-        //await getComand();
+        await getComand();
     }
 
     #region wordFunctions
@@ -41,7 +33,8 @@ class Program
     static string strangeWord (string wordToChange)
     {
         //Isso é preguiça de criar um array com o alfabeto todo;
-        char[] alfabet = new char[58]{
+        char[] alfabet = new char[58]
+        {
             '4', 'B', 'C', 'D', '3', 'F', 'G', 'H', '!', 'J', 'K', 'L', 'M',
             'N', '0', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             '[', '\\', ']', '^', '_', '´',
@@ -61,7 +54,6 @@ class Program
             }
             else if (asciiValue == -65)
             {
-                extraTime = 4000;
                 Console.WriteLine("\nAlerta: caractere fora do padrão detectado. Evite usa-os\nO caractere anormal foi subistituido por '-'\n(erro do console VScode)");
                 splitedWordtoChange[i] = '-';
             }
@@ -105,11 +97,79 @@ class Program
         return finalList;
     }
 
+    static List<string> combinations (string baseWord)
+    {   
+        BigInteger numberOfWords = totalOfPossibilities(baseWord);
+        List<string> allCombinations = new List<string>(); allCombinations.Add(baseWord);
+
+        int baseWordLenght = baseWord.Length;
+
+        int index = 0;
+        while (allCombinations.Count < numberOfWords)
+        {
+            List<char> oldWord= allCombinations[index].ToList();
+            List<char> newWord = new List<char>();
+            
+            Random random = new Random();
+
+            for (int i = 0; i < baseWordLenght; i++)
+            {
+                int randomNumber = random.Next(0, oldWord.Count);
+
+                newWord.Add(oldWord[randomNumber]);
+                oldWord.Remove(oldWord[randomNumber]);
+            }
+
+            if (!allCombinations.Contains(string.Concat(newWord)))
+            {
+                allCombinations.Add(string.Concat(newWord));
+                index++;
+            }
+        }
+        
+        allCombinations.Sort();
+        return allCombinations;
+    }
+
+    
+    /*
+static List<string> shufleLetters (string wordToShuffle, int wordQuantity)
+    {
+        List<string> combinations = new List<string>();
+        
+        List<char> basicWord = wordToShuffle.ToList();
+        List<char>[] sortedWord = new List<char>[wordQuantity];
+
+        int index = 0;
+        while (index < wordQuantity)
+        {   
+            // embaralha em si
+            sortedWord[index] = new List<char>();
+            basicWord = wordToShuffle.ToList();
+            Random random = new Random();
+
+            int basicWordLength = basicWord.Count();
+            for (int j = 0; j < basicWordLength; j++)
+            {
+                int sortedNumber = random.Next(0, basicWordLength - j);
+                sortedWord[index].Add(basicWord[sortedNumber]);
+                basicWord.RemoveAt(sortedNumber);
+            }
+
+            //if (combinations.Contains(sortedWord[]))
+            combinations.Add(string.Concat(sortedWord[index]));
+        }
+
+        return combinations;
+    }
+    */
+
+
     #endregion
 
     #region secundaryFunctions
 
-    static BigInteger exponentialNumber (BigInteger baseNumber)
+    static BigInteger factorialNumber (BigInteger baseNumber)
     {
         BigInteger finalNumber = baseNumber;
         for (BigInteger i = baseNumber-1; i > 1; i--) // >1 para evitar uma lida desnecessária no loop for;
@@ -128,7 +188,7 @@ class Program
         foreach (var item in repetitionList)
         {
             BigInteger newValue = item.Item2;
-            numberOfRepetitions *= exponentialNumber(newValue);
+            numberOfRepetitions *= factorialNumber(newValue);
         }
 
         return numberOfRepetitions;
@@ -136,7 +196,7 @@ class Program
 
     static BigInteger totalOfPossibilities(string baseWord)
     {
-        BigInteger valor = exponentialNumber(baseWord.Length) / repetitions(baseWord);
+        BigInteger valor = factorialNumber(baseWord.Length) / repetitions(baseWord);
 
         return valor;
     }
@@ -157,7 +217,7 @@ class Program
                 "1: Inverter texto;\n" +
                 "2: Mistificar texto;\n" +
                 "3: Contar repetições;\n" +
-                "4: Vazio;\n" +
+                "4: Mostrar arranjos de uma palavra;\n" +
                 "5: Encerrar aplicação.", defaultTextingSpeed
             );
             string inputType = await requestInput("\n\nSua escolha: ", defaultTextingSpeed);
@@ -170,8 +230,7 @@ class Program
                     if (inputText.Length >=2)
                     {
                         await delayedTextWrite("Texto invertido: " + InvertedWord(inputText) + "\n", defaultTextingSpeed);
-                        await Task.Delay(3000 + extraTime);
-                        extraTime = 0;
+                        await Task.Delay(3000);
                     }
                     else
                     {
@@ -185,8 +244,7 @@ class Program
                     if (inputText.Length >=2)
                     {
                         await delayedTextWrite("Texto mistificado: " + strangeWord(inputText) + "\n", defaultTextingSpeed);
-                        await Task.Delay(3000 + extraTime);
-                        extraTime = 0;
+                        await Task.Delay(3000);
                     }
                     else
                     {
@@ -205,8 +263,9 @@ class Program
                             foreach (var item in mainList)
                             {
                                 await delayedTextWrite("Letra: " + item.Item1 + " | repetições: " + item.Item2 + "\n", defaultTextingSpeed);
-                                await Task.Delay(3000);
-                            } 
+                                
+                            }
+                            await Task.Delay(3000); 
                         }
                         else
                         await delayedTextWrite("Não há repetições nesse texto.\n", defaultTextingSpeed);
@@ -221,7 +280,17 @@ class Program
                 break;
 
                 case "4":
-                    await delayedTextWrite("\nSem nada ainda!", defaultTextingSpeed);
+                    inputText = await requestInput("\nPalavra para mostrar os arranjos: ", defaultTextingSpeed);
+                    if (inputText.Length >=2)
+                    {
+                        await delayedTextWrite("Arranjos: " + arrangement(inputText), defaultTextingSpeed);
+                        await Task.Delay(3000);
+                    }
+                    else
+                    {
+                        await delayedTextWrite("\nAlerta: Não é possível rearranjar essa palavra\n", defaultTextingSpeed);
+                        await Task.Delay(2000);
+                    }
                 break;
 
                 case "5":
@@ -263,6 +332,17 @@ class Program
         #pragma warning disable CS8603 // Possible null reference return.
         return input;
         #pragma warning restore CS8603 // Possible null reference return.
+    }
+
+    static string arrangement (string input)
+    {
+        string finalText = null;
+        foreach (string word in combinations(input))
+        {
+            finalText += "\n" + word;
+        }
+
+        return finalText;
     }
 
     #endregion
